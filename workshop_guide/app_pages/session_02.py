@@ -1,7 +1,7 @@
 import streamlit as st
 from components import render_session_header, render_explanation, render_technologies_used, render_key_concepts, render_what_you_built
 
-render_session_header(2, "Cortex Analyst & Semantic Views", "10:00 AM", "40 min", "A semantic view over 3 tables, built with Autopilot in the Snowsight UI")
+render_session_header(2, "Cortex Analyst & Semantic Views", "A semantic view over 3 tables, built with Autopilot in the Snowsight UI")
 
 render_technologies_used([
     {"name": "Cortex Analyst", "description": "Snowflake's text-to-SQL engine that converts natural language questions into SQL using a semantic view to understand your data's business meaning.", "icon": "chat"},

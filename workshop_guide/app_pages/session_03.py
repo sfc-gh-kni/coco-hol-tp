@@ -1,7 +1,7 @@
 import streamlit as st
 from components import render_session_header, render_prompt, render_explanation, render_technologies_used, render_key_concepts, render_what_you_built
 
-render_session_header(3, "Cortex Search", "10:40 AM", "30 min", "Knowledge base, Cortex Search service, and RAG query pattern")
+render_session_header(3, "Cortex Search", "Knowledge base, Cortex Search service, and RAG query pattern")
 
 st.warning("""
 :material/info: **This section is optional.** The core AI platform (Semantic View + Agent) is complete without it. This session adds hybrid search and a RAG pattern over the unstructured incident, compliance, and market-notice text — and enables the optional document-search tool on the agent in Session 4.

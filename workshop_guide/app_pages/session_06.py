@@ -1,7 +1,7 @@
 import streamlit as st
 from components import render_session_header, render_prompt, render_explanation, render_technologies_used, render_key_concepts, render_what_you_built
 
-render_session_header(6, "Streamlit", "12:15 PM", "15 min (optional)", "Operations dashboard with AI chat interface")
+render_session_header(6, "Streamlit", "Operations dashboard with AI chat interface")
 
 st.warning("""
 :material/info: **This section is optional.** If you're running low on time, you can skip this session — the core AI platform (Semantic View, Search, Agent) is already complete from Sessions 1–4. This session adds a visual frontend.

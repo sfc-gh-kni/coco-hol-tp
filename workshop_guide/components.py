@@ -78,14 +78,10 @@ def render_technologies_used(technologies: list[dict]):
 def render_session_header(
     session_num: int,
     title: str,
-    time_range: str,
-    duration: str,
     building: str,
 ):
     st.title(f"Session {session_num}: {title}")
-    col1, col2 = st.columns(2)
-    col1.markdown(f":material/schedule: **{time_range}** ({duration})")
-    col2.markdown(f":material/construction: **Building**: {building}")
+    st.markdown(f":material/construction: **Building**: {building}")
     st.space("small")
 
 
