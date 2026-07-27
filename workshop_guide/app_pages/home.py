@@ -8,7 +8,7 @@ st.space("small")
 col1, col2, col3 = st.columns(3)
 col1.metric("Sections", "6", help="Hands-on lab sections")
 col2.metric("Prompts", "16", help="Total prompts across all tools")
-col3.metric("Duration", "3.5 hrs", help="Total workshop time")
+col3.metric("Duration", "2 hrs", help="Total workshop time")
 
 st.space("medium")
 
@@ -46,7 +46,7 @@ st.markdown("#### What we're building")
 
 with st.container(border=True):
     st.markdown("""
-In 3.5 hrs, we build a complete AI-powered operations platform:
+In 2 hrs, we build a complete AI-powered operations platform:
 
 **1. Data Foundation** — Load structured and unstructured operations data into Snowflake from pre-generated CSV files.
 

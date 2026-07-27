@@ -33,12 +33,12 @@ page = st.navigation(
         "Block 1: Data & Intelligence": [
             st.Page("app_pages/session_01.py", title=_title(1, "Data Prep"), icon=":material/database:"),
             st.Page("app_pages/session_02.py", title=_title(2, "Cortex Analyst & Semantic Views"), icon=":material/chat:"),
-            st.Page("app_pages/session_03.py", title=_title(3, "Cortex Search"), icon=":material/search:"),
+            st.Page("app_pages/session_03.py", title=_title(3, "Cortex Search (Optional)"), icon=":material/search:"),
         ],
         "Block 2: Agents & Apps": [
             st.Page("app_pages/session_04.py", title=_title(4, "Cortex Agents"), icon=":material/smart_toy:"),
             st.Page("app_pages/session_05.py", title=_title(5, "CoWork"), icon=":material/group:"),
-            st.Page("app_pages/session_06.py", title=_title(6, "Streamlit"), icon=":material/web:"),
+            st.Page("app_pages/session_06.py", title=_title(6, "Streamlit (Optional)"), icon=":material/web:"),
         ],
     },
     position="sidebar",

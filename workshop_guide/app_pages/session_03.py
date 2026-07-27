@@ -3,6 +3,11 @@ from components import render_session_header, render_prompt, render_explanation,
 
 render_session_header(3, "Cortex Search", "10:40 AM", "30 min", "Knowledge base, Cortex Search service, and RAG query pattern")
 
+st.warning("""
+:material/info: **This section is optional.** The core AI platform (Semantic View + Agent) is complete without it. This session adds hybrid search and a RAG pattern over the unstructured incident, compliance, and market-notice text — and enables the optional document-search tool on the agent in Session 4.
+""")
+
+
 render_technologies_used([
     {"name": "Cortex Search Service", "description": "A managed hybrid search engine combining vector (semantic) and keyword search with automatic reranking. Created with a single SQL statement.", "icon": "search"},
     {"name": "RAG (Retrieval Augmented Generation)", "description": "A pattern that retrieves relevant documents first, then passes them as context to an LLM for grounded answer generation.", "icon": "hub"},
