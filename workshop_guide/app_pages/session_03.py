@@ -1,97 +1,95 @@
 import streamlit as st
-from components import render_session_header, render_prompt, render_explanation, render_technologies_used, render_key_concepts, render_what_you_built
+from components import render_session_header, render_explanation, render_technologies_used, render_key_concepts, render_what_you_built
 
-render_session_header(3, "Cortex Search", "Knowledge base, Cortex Search service, and RAG query pattern")
+render_session_header(3, "Cortex Search", "Knowledge base view, a Cortex Search service built in the Snowsight UI, and search testing in the Playground")
 
 st.warning("""
-:material/info: **This section is optional.** The core AI platform (Semantic View + Agent) is complete without it. This session adds hybrid search and a RAG pattern over the unstructured incident, compliance, and market-notice text — and enables the optional document-search tool on the agent in Session 4.
+:material/info: **This section is optional.** The core AI platform (Semantic View + Agent) is complete without it. This session adds hybrid search over the unstructured incident, compliance, and market-notice text — and enables the optional document-search tool on the agent in Session 4.
 """)
-
 
 render_technologies_used([
-    {"name": "Cortex Search Service", "description": "A managed hybrid search engine combining vector (semantic) and keyword search with automatic reranking. Created with a single SQL statement.", "icon": "search"},
-    {"name": "RAG (Retrieval Augmented Generation)", "description": "A pattern that retrieves relevant documents first, then passes them as context to an LLM for grounded answer generation.", "icon": "hub"},
-    {"name": "SEARCH_PREVIEW", "description": "SQL function to query a Cortex Search Service. Supports text queries, column selection, filtering, and result limits.", "icon": "preview"},
+    {"name": "Cortex Search Service", "description": "A managed hybrid search engine combining vector (semantic) and keyword search with automatic reranking and refreshes. Created from the Snowsight UI or a single SQL statement.", "icon": "search"},
+    {"name": "Hybrid Search", "description": "Combines vector search (semantic similarity) with keyword search (exact matching), then reranks - better recall than either alone.", "icon": "hub"},
+    {"name": "Search Playground", "description": "A built-in Snowsight UI for testing a search service interactively - type a query, apply filters, and inspect ranked results.", "icon": "preview"},
 ])
 
-
-PROMPT_3_1 = """In TRAYPORT_AI.TRADING:
-
-1. First, create a unified text table for search called TRADING_KNOWLEDGE_BASE that combines:
-   - From INCIDENT_LOGS: doc_id = incident_id, doc_type = 'INCIDENT', content = category || ': ' || description || ' Resolution: ' || resolution, metadata_category = category, metadata_priority = severity, doc_date = incident_date
-   - From COMPLIANCE_REPORTS: doc_id = report_id, doc_type = 'COMPLIANCE', content = regulation || ' - ' || description, metadata_category = regulation, metadata_priority = status, doc_date = report_date
-   - From MARKET_NOTICES: doc_id = notice_id, doc_type = 'NOTICE', content = title || '. ' || description, metadata_category = notice_type, metadata_priority = 'Info', doc_date = notice_date
-
-2. Then create a Cortex Search Service:
-   CREATE OR REPLACE CORTEX SEARCH SERVICE TRADING_DOCS_SEARCH
-     ON content
-     ATTRIBUTES metadata_category, metadata_priority, doc_type
-     WAREHOUSE = TRAYPORT_WH
-     TARGET_LAG = '1 hour'
-     EMBEDDING_MODEL = 'snowflake-arctic-embed-l-v2.0'
-     AS (
-       SELECT doc_id, doc_type, content, metadata_category, metadata_priority, doc_date
-       FROM TRADING_KNOWLEDGE_BASE
-     );
-
-Execute all SQL. Then verify with SHOW CORTEX SEARCH SERVICES."""
-
-render_prompt("Prompt 3.1", "Create Cortex Search Service", PROMPT_3_1)
-
-render_explanation("What this prompt does", """
-Builds a unified knowledge base from unstructured text sources and creates a hybrid search service.
-
-The search service automatically embeds, indexes, and serves results with auto-refresh when source data changes.
+st.info("""
+:material/info: **Mostly UI, one SQL step.** The Cortex Search creation wizard reads from a **single table or view**, so we first build one unified knowledge-base **view** that combines the three text tables (this needs a short worksheet query). Everything after that - creating the service and testing it - is done in the Snowsight UI.
 """)
 
+st.markdown("---")
 
-PROMPT_3_2 = """In TRAYPORT_AI.TRADING, query our TRADING_DOCS_SEARCH service using SEARCH_PREVIEW:
+st.markdown("#### :material/merge: Step 1 - Build the knowledge-base view (worksheet)")
+with st.container(border=True):
+    st.markdown("Run this once in a SQL worksheet to combine incidents, compliance findings, and market notices into one searchable view with a common shape:")
+    st.code(
+        "CREATE OR REPLACE VIEW TRAYPORT_AI.TRADING.TRADING_KNOWLEDGE_BASE AS\n"
+        "SELECT incident_id AS doc_id, 'INCIDENT' AS doc_type,\n"
+        "       category || ': ' || description || ' Resolution: ' || resolution AS content,\n"
+        "       category AS metadata_category, severity AS metadata_priority, incident_date AS doc_date\n"
+        "FROM TRAYPORT_AI.TRADING.INCIDENT_LOGS\n"
+        "UNION ALL\n"
+        "SELECT report_id, 'COMPLIANCE',\n"
+        "       regulation || ' - ' || description,\n"
+        "       regulation, status, report_date\n"
+        "FROM TRAYPORT_AI.TRADING.COMPLIANCE_REPORTS\n"
+        "UNION ALL\n"
+        "SELECT notice_id, 'NOTICE',\n"
+        "       title || '. ' || description,\n"
+        "       notice_type, 'Info', notice_date\n"
+        "FROM TRAYPORT_AI.TRADING.MARKET_NOTICES;",
+        language="sql", wrap_lines=True,
+    )
 
-1. "latency spikes during volatile trading" (filter doc_type = 'INCIDENT')
-2. "wash trades, spoofing and layering surveillance" (filter doc_type = 'COMPLIANCE')
-3. "clearing house margin parameter changes"
-4. "connectivity outage affecting a natural gas venue" 
+st.markdown("#### :material/search: Step 2 - Create the search service (Snowsight UI)")
+with st.container(border=True):
+    st.markdown("""
+1. In Snowsight, go to **AI & ML -> Cortex Search** -> **Create**.
+2. Select a **role** (must have the `SNOWFLAKE.CORTEX_USER` database role) and the **`TRAYPORT_WH`** warehouse.
+3. Select **database `TRAYPORT_AI`** and **schema `TRADING`**.
+4. **Name**: `TRADING_DOCS_SEARCH`, then **Next**.
+5. Choose **Table or view** and select **`TRADING_KNOWLEDGE_BASE`**, then **Next**.
+6. **Columns to include** in results: select all - `doc_id`, `doc_type`, `content`, `metadata_category`, `metadata_priority`, `doc_date`. **Next**.
+7. **Column to search**: select **`content`**. **Next**.
+8. **Filter columns**: select **`doc_type`**, **`metadata_category`**, **`metadata_priority`**. **Next**.
+9. **Target lag**: `1 hour`. Select **Create**.
+""")
+    st.caption("Snowflake auto-enables change tracking on the base tables and builds the index as part of creation - this can take a minute or two.")
 
-Execute all searches and show results."""
+st.markdown("#### :material/manage_search: Step 3 - Test in the Search Playground (UI)")
+with st.container(border=True):
+    st.markdown("Open the new `TRADING_DOCS_SEARCH` service and use the **Playground** to run these queries. Try the `doc_type` filter to scope results:")
+    st.code("latency spikes during volatile trading", language="text", wrap_lines=True)
+    st.caption("Filter doc_type = INCIDENT")
+    st.code("wash trades, spoofing and layering surveillance", language="text", wrap_lines=True)
+    st.caption("Filter doc_type = COMPLIANCE")
+    st.code("clearing house margin parameter changes", language="text", wrap_lines=True)
+    st.code("connectivity outage affecting a natural gas venue", language="text", wrap_lines=True)
 
-render_prompt("Prompt 3.2", "Query the Search Service", PROMPT_3_2)
-
-render_explanation("What this prompt does", """
-Tests different search capabilities across the document corpus:
-
-
-- **Query 1** shows semantic matching on operational incident text, narrowed to incidents only.
-- **Query 2** finds market-surveillance findings using domain terms (wash trades, spoofing, layering).
-- **Query 3** demonstrates keyword + semantic hybrid recall across clearing-related notices/incidents.
-- **Query 4** retrieves across document types for a specific commodity/venue theme.
-
+st.success("""
+:material/lightbulb: **This powers the agent.** In Session 4 (optional), add `TRADING_DOCS_SEARCH` as a Cortex Search tool on `TRADING_OPS_AGENT`. The agent then handles qualitative questions ("summarize the connectivity incidents") and combines them with the structured numbers - the RAG pattern, orchestrated for you.
 """)
 
+render_explanation("How Cortex Search works", """
+Cortex Search builds a **hybrid** index over your text: it embeds each `content` value for **vector
+(semantic)** search, keeps a **keyword** index for exact matches, and applies **semantic reranking** to
+order results - no tuning required. It auto-refreshes as the base data changes (governed by the target lag).
 
-PROMPT_3_3 = """In TRAYPORT_AI.TRADING, implement a RAG pattern:
-
-1. Question: "What are the most common platform incident types affecting our trading venues, and which measures have proven effective at resolving them?"
-
-2. Retrieve top 5 documents from TRADING_DOCS_SEARCH, then pass to SNOWFLAKE.CORTEX.COMPLETE() with instructions to answer ONLY from the provided documents, cite doc_ids, and structure the answer with: 1) Common incident types, 2) Root causes, 3) Effective measures, 4) Recommendations.
-
-Use claude-sonnet-4-6 as the model. Execute and show the RAG response."""
-
-render_prompt("Prompt 3.3", "RAG Pattern: Search + Generate", PROMPT_3_3)
-
-render_explanation("What this prompt does", """
-Implements the full **RAG** pattern: retrieve relevant documents, then generate a grounded answer with citations.
+Because the wizard reads a single source, we first shaped the three document types into one
+`TRADING_KNOWLEDGE_BASE` view with a common schema (`doc_id`, `doc_type`, `content`, plus filter columns).
+The filter columns (`doc_type`, `metadata_category`, `metadata_priority`) let you scope searches - e.g. only
+compliance findings, or only High-severity incidents.
 """)
-
 
 render_key_concepts([
-    {"term": "Cortex Search Service", "definition": "A managed hybrid search engine created with SQL. Handles embedding, indexing, reranking, and auto-refresh automatically."},
-    {"term": "RAG", "definition": "Retrieval Augmented Generation: retrieve documents, include as context in LLM prompt, generate grounded answer."},
-    {"term": "Hybrid Search", "definition": "Combining vector search (semantic similarity) with keyword search (exact matching). Better than either alone."},
+    {"term": "Cortex Search Service", "definition": "A managed hybrid search engine created in the UI or with one SQL statement. Handles embedding, indexing, reranking, and auto-refresh automatically."},
+    {"term": "Hybrid Search", "definition": "Combining vector search (semantic similarity) with keyword search (exact matching), plus reranking. Better than either alone."},
+    {"term": "RAG", "definition": "Retrieval Augmented Generation: retrieve relevant documents, then have an LLM generate a grounded answer. Here the Session 4 agent orchestrates this for you."},
 ])
 
 render_what_you_built([
-    "TRADING_KNOWLEDGE_BASE — unified document table",
-    "TRADING_DOCS_SEARCH — Cortex Search service with hybrid search",
-    "Search queries across multiple document types",
-    "Full RAG pipeline for grounded Q&A",
+    "TRADING_KNOWLEDGE_BASE - unified view over incidents, compliance findings, and market notices",
+    "TRADING_DOCS_SEARCH - a Cortex Search service built in the Snowsight UI",
+    "Hybrid search validated in the Search Playground with document-type filters",
+    "A retrieval layer ready to plug into the Session 4 agent",
 ])
