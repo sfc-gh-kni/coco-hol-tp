@@ -1,0 +1,25 @@
+instrument_id,instrument_name,market_id,commodity,contract_type,delivery_period,unit
+I001,TTF Gas Day-Ahead,M001,Natural Gas,Spot,Day-Ahead,EUR/MWh
+I002,TTF Gas Month-Ahead Aug-26,M001,Natural Gas,Forward,Aug-2026,EUR/MWh
+I003,TTF Gas Winter-26,M001,Natural Gas,Forward,Q4-2026,EUR/MWh
+I004,TTF Gas Calendar-27,M001,Natural Gas,Forward,Cal-2027,EUR/MWh
+I005,NBP Gas Day-Ahead,M002,Natural Gas,Spot,Day-Ahead,GBp/therm
+I006,NBP Gas Month-Ahead Aug-26,M002,Natural Gas,Forward,Aug-2026,GBp/therm
+I007,THE Gas Month-Ahead Aug-26,M003,Natural Gas,Forward,Aug-2026,EUR/MWh
+I008,THE Gas Calendar-27,M003,Natural Gas,Forward,Cal-2027,EUR/MWh
+I009,PEG Gas Day-Ahead,M004,Natural Gas,Spot,Day-Ahead,EUR/MWh
+I010,German Power Baseload Day-Ahead,M005,Power,Spot,Day-Ahead,EUR/MWh
+I011,German Power Baseload Cal-27,M005,Power,Forward,Cal-2027,EUR/MWh
+I012,German Power Peakload Cal-27,M005,Power,Forward,Cal-2027,EUR/MWh
+I013,French Power Baseload Day-Ahead,M006,Power,Spot,Day-Ahead,EUR/MWh
+I014,French Power Baseload Cal-27,M006,Power,Forward,Cal-2027,EUR/MWh
+I015,Nordic Power System Day-Ahead,M007,Power,Spot,Day-Ahead,EUR/MWh
+I016,Nordic Power Baseload Q4-26,M007,Power,Forward,Q4-2026,EUR/MWh
+I017,UK Power Baseload Day-Ahead,M008,Power,Spot,Day-Ahead,GBP/MWh
+I018,UK Power Baseload Season Win-26,M008,Power,Forward,Win-2026,GBP/MWh
+I019,Iberian Power Baseload Day-Ahead,M009,Power,Spot,Day-Ahead,EUR/MWh
+I020,EUA Carbon Dec-26 Future,M010,Emissions,Future,Dec-2026,EUR/tCO2
+I021,EUA Carbon Dec-27 Future,M010,Emissions,Future,Dec-2027,EUR/tCO2
+I022,Zeebrugge Gas Month-Ahead Aug-26,M011,Natural Gas,Forward,Aug-2026,EUR/MWh
+I023,UKA Carbon Dec-26 Future,M012,Emissions,Future,Dec-2026,GBP/tCO2
+I024,TTF Gas Option Sep-26,M001,Natural Gas,Option,Sep-2026,EUR/MWh

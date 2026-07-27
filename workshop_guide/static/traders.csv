@@ -1,0 +1,21 @@
+trader_id,firm_name,participant_type,country,tier,onboard_date
+T001,RWE Supply & Trading,Utility,Germany,Tier 1,2019-03-12
+T002,EDF Trading,Utility,France,Tier 1,2018-06-01
+T003,Uniper Global Commodities,Utility,Germany,Tier 1,2019-01-22
+T004,Engie Global Energy Management,Utility,France,Tier 1,2018-09-14
+T005,Vattenfall Energy Trading,Utility,Sweden,Tier 1,2020-02-03
+T006,Orsted Markets,Utility,Denmark,Tier 2,2021-05-19
+T007,Vitol Energy,Trading House,Switzerland,Tier 1,2018-04-08
+T008,Gunvor Group,Trading House,Switzerland,Tier 1,2019-07-30
+T009,Trafigura Trading,Trading House,Singapore,Tier 1,2019-11-11
+T010,Mercuria Energy Trading,Trading House,Switzerland,Tier 1,2020-01-27
+T011,Glencore Energy UK,Trading House,United Kingdom,Tier 1,2018-10-05
+T012,Macquarie Commodities,Bank,Australia,Tier 2,2020-08-16
+T013,Goldman Sachs Commodities,Bank,United States,Tier 2,2019-02-18
+T014,Morgan Stanley Commodities,Bank,United States,Tier 2,2020-03-24
+T015,Marex Financial,Broker,United Kingdom,Tier 2,2021-01-12
+T016,Tullett Prebon Energy,Broker,United Kingdom,Tier 2,2018-12-03
+T017,ICAP Energy,Broker,United Kingdom,Tier 2,2019-05-29
+T018,Griffin Markets,Broker,United Kingdom,Tier 3,2022-02-14
+T019,Axpo Trading,Utility,Switzerland,Tier 2,2021-09-08
+T020,Shell Energy Europe,Trading House,United Kingdom,Tier 1,2018-07-17

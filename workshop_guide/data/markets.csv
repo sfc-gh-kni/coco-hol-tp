@@ -1,0 +1,13 @@
+market_id,market_name,commodity,region,country,venue_type,currency,timezone
+M001,TTF Natural Gas,Natural Gas,North-West Europe,Netherlands,Exchange,EUR,Europe/Amsterdam
+M002,NBP Natural Gas,Natural Gas,United Kingdom,United Kingdom,Exchange,GBP,Europe/London
+M003,THE Natural Gas,Natural Gas,Central Europe,Germany,Exchange,EUR,Europe/Berlin
+M004,PEG Natural Gas,Natural Gas,Western Europe,France,Exchange,EUR,Europe/Paris
+M005,EEX German Power,Power,Central Europe,Germany,Exchange,EUR,Europe/Berlin
+M006,EPEX French Power,Power,Western Europe,France,Exchange,EUR,Europe/Paris
+M007,Nord Pool Nordic Power,Power,Nordics,Norway,Exchange,EUR,Europe/Oslo
+M008,N2EX UK Power,Power,United Kingdom,United Kingdom,Exchange,GBP,Europe/London
+M009,OMIE Iberian Power,Power,Iberia,Spain,Exchange,EUR,Europe/Madrid
+M010,EUA Carbon Emissions,Emissions,European Union,European Union,Exchange,EUR,Europe/Brussels
+M011,Zeebrugge Natural Gas,Natural Gas,North-West Europe,Belgium,Broker,EUR,Europe/Brussels
+M012,UKA Carbon Emissions,Emissions,United Kingdom,United Kingdom,Exchange,GBP,Europe/London
